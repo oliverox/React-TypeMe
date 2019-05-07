@@ -11,9 +11,10 @@ const NODE_ENV = process.env.NODE_ENV || "development";
 export default {
   input: pkg.main,
   output: {
-    name: 'TypeAnim',
+    name: 'TypeMe',
     file: pkg.browser,
     format: 'umd',
+    exports: 'named',
     globals: {
       react: 'React'
     }

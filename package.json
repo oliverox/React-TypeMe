@@ -1,12 +1,12 @@
 {
   "name": "react-typeme",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Yet another React typewriter animation component, simple and powerful.",
-  "main": "src/main.js",
-  "browser": "dist/react-type-anim.js",
+  "main": "src/index.js",
+  "browser": "dist/react-typeme.umd.js",
   "scripts": {
     "build": "rollup --config ./rollup.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Oliver Oxenham",
   "license": "MIT",
@@ -17,9 +17,12 @@
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.8.0",
     "babel-preset-minify": "^0.5.0",
-    "react": "^16.8.6",
+    "jest": "^24.8.0",
+    "react": "file:../test-react-typeme/node_modules/react",
     "react-dom": "^16.8.6",
+    "react-test-renderer": "^16.8.6",
     "rollup": "^1.10.1",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.3.4",
