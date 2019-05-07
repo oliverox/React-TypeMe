@@ -1,0 +1,47 @@
+{
+  "name": "react-typeme",
+  "version": "0.1.0",
+  "description": "Yet another React typewriter animation component, simple and powerful.",
+  "main": "src/main.js",
+  "browser": "dist/react-type-anim.js",
+  "scripts": {
+    "build": "rollup --config ./rollup.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oliver Oxenham",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=16.x.x"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-preset-minify": "^0.5.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "rollup": "^1.10.1",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-filesize": "^6.0.1",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-terser": "^4.0.4"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oliverox/react-typeme.git"
+  },
+  "keywords": [
+    "react",
+    "typewriter",
+    "typeme",
+    "typeit",
+    "animate"
+  ],
+  "bugs": {
+    "url": "https://github.com/oliverox/react-typeme/issues"
+  },
+  "homepage": "https://github.com/oliverox/react-typeme#readme"
+}
