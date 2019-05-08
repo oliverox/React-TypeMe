@@ -33,7 +33,7 @@ const TypeMe = ({
       let animStyle = `{0%{opacity:1;}49%{opacity:1;}50%{opacity:0;}100%{opacity:0;}}`;
       let keyframes = [
         `.ta-hide{display:none}`,
-        `.ta-cursor{will-change:opacity;font:inherit;position:relative;top:-0.05ch;}`,
+        `.ta-cursor{font:inherit;position:relative;top:-0.05ch;font-style: normal !important;}`,
         `.ta-blink{animation:${animName} ${BLINK_SPEED}ms infinite;}`,
         `@keyframes ${animName}${animStyle}`,
         `@-webkit-keyframes ${animName}${animStyle}`

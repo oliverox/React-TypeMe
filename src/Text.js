@@ -114,6 +114,7 @@ Text.defaultProps = {
   lineBreak: false,
   keepCursor: true,
   endDelay: false,
+  cursorCharacter: '|',
   startAnimation: true,
   onAnimationEnd: () => {
     console.log('onAnimationEnd => 0');
