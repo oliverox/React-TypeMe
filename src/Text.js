@@ -9,7 +9,7 @@ const Text = ({
   endDelay,
   className,
   lineBreak,
-  keepCursor,
+  hideCursor,
   typingSpeed,
   deleteSpeed,
   deleteDelay,
@@ -96,7 +96,7 @@ const Text = ({
   if (!startAnimation && !animationEnded) {
     cn = `${cn} ta-hide`;
   } else {
-    cn = `${cn}${animationEnded && !keepCursor ? ' ta-hide' : ''}`;
+    cn = `${cn}${animationEnded && hideCursor ? ' ta-hide' : ''}`;
   }
   return (
     <span className="ta-anim">
@@ -110,7 +110,7 @@ const Text = ({
 Text.defaultProps = {
   className: '',
   lineBreak: false,
-  keepCursor: true,
+  hideCursor: false,
   endDelay: false,
   cursorCharacter: '|',
   startAnimation: true,

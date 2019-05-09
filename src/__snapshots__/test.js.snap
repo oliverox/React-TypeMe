@@ -1,5 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Text /> component <Text/> hides cursor after animation 1`] = `
+<div>
+  <span
+    class="ta-anim"
+  >
+    <span
+      class=""
+    >
+      Cursor hidden?
+    </span>
+    <span
+      class="ta-cursor ta-blink ta-hide"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
 exports[`<Text /> component <Text/> onAnimationEnd callback executed once successfully 1`] = `
 <div>
   <span

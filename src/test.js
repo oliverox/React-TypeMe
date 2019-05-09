@@ -11,12 +11,7 @@ afterEach(() => {
   cleanup();
 });
 
-/*
-<Text />
-  - change cursor
-  - keep cursor after animation
-  - hide cursor after animation
-*/
+/* <Text /> */
 
 describe('<Text /> component', () => {
   // render text passed as children
@@ -111,7 +106,7 @@ describe('<Text /> component', () => {
           >
             Yes
           </Text>
-        );  
+        );
       }, 500);
       div = container;
     }).then(() => {
@@ -138,6 +133,26 @@ describe('<Text /> component', () => {
       done();
       expect(div).toMatchSnapshot();
     });
+  });
+
+  // hide cursor after animation
+  it('<Text/> hides cursor after animation', done => {
+    new Promise(resolve => {
+      const { container } = render(
+        <Text
+          hideCursor={true}
+          onAnimationEnd={() => {
+            resolve();
+          }}
+        >
+          Cursor hidden?
+        </Text>
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+    });    
   })
 });
 
