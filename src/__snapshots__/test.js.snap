@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Text/> renders text passed as children 1`] = `
+<div>
+  <span
+    class="ta-anim"
+  >
+    <span
+      class=""
+    >
+      Hello!
+    </span>
+    <span
+      class="ta-cursor ta-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
+exports[`<TypeMe/> renders without crashing 1`] = `<div />`;

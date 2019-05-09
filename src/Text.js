@@ -109,7 +109,6 @@ const Text = ({
 
 Text.defaultProps = {
   className: '',
-  eraseLength: 0,
   lineBreak: false,
   keepCursor: true,
   endDelay: false,
@@ -118,9 +117,7 @@ Text.defaultProps = {
   typingSpeed: 200, // WPM
   deleteSpeed: 400, // WPM
   deleteDelay: 1000, // ms
-  onAnimationEnd: () => {
-    console.log('onAnimationEnd => 0');
-  }
+  onAnimationEnd: () => {}
 };
 
 export default Text;
