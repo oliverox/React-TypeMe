@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, cleanup } from 'react-testing-library';
-import TypeMe from './index';
-import Text from './Text';
+import Text from '../Text';
 
 let div;
 
@@ -11,10 +10,8 @@ afterEach(() => {
   cleanup();
 });
 
-// Unit tests for <Text />
+describe('<Text/> component', () => {
 
-describe('<Text /> component', () => {
-  // render string passed as children
   it('<Text/> renders text passed as children', done => {
     new Promise(resolve => {
       const { container } = render(
@@ -33,7 +30,6 @@ describe('<Text /> component', () => {
     });
   });
 
-  // onAnimationEnd callback executed once successfully
   it(`<Text/> onAnimationEnd callback executed once successfully`, done => {
     let cb;
     new Promise(resolve => {
@@ -50,7 +46,6 @@ describe('<Text /> component', () => {
     });
   });
 
-  // delete characters
   it('<Text/> renders text with deleted characters', done => {
     new Promise(resolve => {
       const { container } = render(
@@ -70,7 +65,6 @@ describe('<Text /> component', () => {
     });
   });
 
-  // add lineBreak after render
   it('<Text/> renders with a line break character', done => {
     new Promise(resolve => {
       const { container } = render(
@@ -90,7 +84,6 @@ describe('<Text /> component', () => {
     });
   });
 
-  // trigger startAnimation manually
   it('<Text/> with manually triggered start animation', done => {
     new Promise(resolve => {
       const { container, rerender } = render(
@@ -115,7 +108,6 @@ describe('<Text /> component', () => {
     });
   });
 
-  // change default cursor
   it('<Text/> renders with new cursor character', done => {
     new Promise(resolve => {
       const { container } = render(
@@ -135,7 +127,6 @@ describe('<Text /> component', () => {
     });
   });
 
-  // hide cursor after animation
   it('<Text/> hides cursor after animation', done => {
     new Promise(resolve => {
       const { container } = render(
@@ -155,7 +146,6 @@ describe('<Text /> component', () => {
     });
   });
 
-  // keep cursor after animation
   it('<Text/> keep cursor after animation', done => {
     new Promise(resolve => {
       const { container } = render(
@@ -174,59 +164,4 @@ describe('<Text /> component', () => {
       expect(div).toMatchSnapshot();
     });
   });
-});
-
-/* 
-<TypeMe />
-  - renders without crashing
-  - onAnimationEnd called once when animation ends
-  - renders with string passed as children
-  - renders with string passed as props
-  - renders multiple instances 
-  - animationEnd callback executed once successfully
-*/
-
-describe('<TypeMe /> component', () => {
-  // renders without crashing
-  it('<TypeMe/> renders without crashing', done => {
-    const { container } = render(<TypeMe />);
-    setTimeout(() => {
-      div = container;
-      expect(div).toMatchSnapshot();
-      done();
-    }, 1000);
-  });
-
-  it('<TypeMe/> onAnimationEnd called once when animation ends', done => {
-    let cb;
-    new Promise(resolve => {
-      cb = jest.fn(() => {
-        resolve();
-      });
-      const { container } = render(<TypeMe onAnimationEnd={cb}>Hello!</TypeMe>);
-      div = container;
-    }).then(() => {
-      done();
-      expect(cb).toHaveBeenCalledTimes(1);
-      expect(div).toMatchSnapshot();
-    });
-  });
-  // it('<TypeMe/> renders with string passed as children', done => {
-  //   const { container } = render(<TypeMe />);
-  //   setTimeout(() => {
-  //     div = container;
-  //     expect(div).toMatchSnapshot();
-  //     done();
-  //   }, 1000);
-  // })
-
-  // // renders multiple instances
-  // it('<TypeMe/> renders multiple instances', done => {
-  //   const { container } = render(<TypeMe />);
-  //   setTimeout(() => {
-  //     div = container;
-  //     expect(div).toMatchSnapshot();
-  //     done();
-  //   }, 1000);
-  // })
 });

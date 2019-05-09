@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TypeMe/> component <TypeMe/> onAnimationEnd called once when animation ends 1`] = `
+<div>
+  <span
+    class="ta-anim"
+  >
+    <span
+      class=""
+    >
+      Hello!
+    </span>
+    <span
+      class="ta-cursor ta-blink ta-hide"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
+exports[`<TypeMe/> component <TypeMe/> renders without crashing 1`] = `<div />`;
