@@ -119,6 +119,26 @@ describe('<Text /> component', () => {
       expect(div).toMatchSnapshot();
     });
   });
+
+  // change default cursor
+  it('<Text/> renders with new cursor character', done => {
+    new Promise(resolve => {
+      const { container } = render(
+        <Text
+          cursorCharacter="_"
+          onAnimationEnd={() => {
+            resolve();
+          }}
+        >
+          New cursor?
+        </Text>
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+    });
+  })
 });
 
 /* 

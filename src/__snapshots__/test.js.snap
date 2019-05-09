@@ -77,6 +77,25 @@ exports[`<Text /> component <Text/> renders with a line break character 1`] = `
 </div>
 `;
 
+exports[`<Text /> component <Text/> renders with new cursor character 1`] = `
+<div>
+  <span
+    class="ta-anim"
+  >
+    <span
+      class=""
+    >
+      New cursor?
+    </span>
+    <span
+      class="ta-cursor ta-blink"
+    >
+      _
+    </span>
+  </span>
+</div>
+`;
+
 exports[`<Text /> component <Text/> with manually triggered start animation 1`] = `
 <div>
   <span
