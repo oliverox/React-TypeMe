@@ -18,11 +18,10 @@ const TypeMe = ({
   startAnimation,
   cursorCharacter
 }) => {
-  const [curAnimIndex, setCurAnimIndex] = useState(0);
+  const [currentAnimationIndex, setCurrentAnimationIndex] = useState(0);
 
   useEffect(() => {
     if (window && !window._TYPEME) {
-      console.log('Inserting stylesheet...');
       let styleSheet = document.styleSheets[0];
       if (!styleSheet) {
         const style = document.createElement('style');
@@ -54,7 +53,7 @@ const TypeMe = ({
           keepCursor={keepCursor}
           cursorCharacter={cursorCharacter}
           onAnimationEnd={() => {
-            console.log('Animation ended for', curAnimIndex);
+            console.log('Animation ended for', currentAnimationIndex);
           }}
         >
           {children}
@@ -67,7 +66,7 @@ const TypeMe = ({
     const len = strings.length;
     let out = [],
       lastItem,
-      j = 0;
+      index = 0;
     for (let i = 0; i < len; i++) {
       let child = strings[i];
       if (typeof child === 'string') {
@@ -75,19 +74,19 @@ const TypeMe = ({
           <Text
             className={className}
             keepCursor={keepCursor ? i === len - 1 : false}
-            key={`${INSTANCE_ID}-${j}`}
-            startAnimation={j === curAnimIndex ? true : false}
+            key={`${INSTANCE_ID}-${index}`}
+            startAnimation={index === currentAnimationIndex ? true : false}
             cursorCharacter={cursorCharacter}
             onAnimationEnd={() => {
-              console.log('Animation ended for', curAnimIndex);
-              console.log('Setting current anim index to', curAnimIndex + 1);
-              setCurAnimIndex(curAnimIndex + 1);
+              console.log('Animation ended for', currentAnimationIndex);
+              console.log('Setting current anim index to', currentAnimationIndex + 1);
+              setCurrentAnimationIndex(currentAnimationIndex + 1);
             }}
           >
             {child}
           </Text>
         );
-        j++;
+        index++;
       } else {
         if (lastItem) {
           switch (child.type) {
@@ -120,14 +119,14 @@ const TypeMe = ({
 
             case Text:
               lastItem = React.cloneElement(child, {
-                key: `${INSTANCE_ID}-${j}`,
-                startAnimation: j === curAnimIndex ? true : false,
+                key: `${INSTANCE_ID}-${index}`,
+                startAnimation: index === currentAnimationIndex ? true : false,
                 onAnimationEnd: () => {
-                  console.log('Animation ended for', curAnimIndex);
-                  setCurAnimIndex(curAnimIndex + 1);
+                  console.log('Animation ended for', currentAnimationIndex);
+                  setCurrentAnimationIndex(currentAnimationIndex + 1);
                 }
               });
-              j++;
+              index++;
               break;
 
             default:

@@ -1,31 +1,30 @@
 import React, { useState, useEffect } from 'react';
 
-const TYPING_SPEED = 10; // characters per second
-const DELETE_SPEED = 20; // cps
-const CHAR_INTERVAL = 1000 / TYPING_SPEED; // ms
-const DEL_INTERVAL = 1000 / DELETE_SPEED;
-const DELETE_DELAY = 2000; // ms
-
 const isServer = () => {
   return !(typeof window != 'undefined' && window.document);
 };
 
 const Text = ({
+  children,
   endDelay,
   className,
-  children,
   lineBreak,
   keepCursor,
+  typingSpeed,
+  deleteSpeed,
+  deleteDelay,
   onAnimationEnd,
   startAnimation,
   cursorCharacter,
   deleteCharacters
 }) => {
+  const charInterval = 1000 * 60 / (typingSpeed * 5); // ms
+  const deleteInterval = 1000 * 60 / (deleteSpeed * 5); // ms
   const [string, setString] = useState('');
   const [delayed, setDelayed] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [animationEnded, setAnimationEnded] = useState(false);
-  const childrenLength = children.length;
+  const childrenLength = children && children.length ? children.length : 0;
   let elapsed = 0;
 
   useEffect(() => {
@@ -35,7 +34,7 @@ const Text = ({
       }
       let curLength = string.length;
       if (!deleting && curLength < childrenLength) {
-        if (time >= elapsed + CHAR_INTERVAL) {
+        if (time >= elapsed + charInterval) {
           setString(children.substring(0, curLength + 1));
           elapsed = time;
         } else {
@@ -49,7 +48,7 @@ const Text = ({
               setDeleting(true);
               setDelayed(false);
               setString(children.substring(0, curLength - 1));
-            }, DELETE_DELAY);
+            }, deleteDelay);
           } else {
             if (curLength === childrenLength - deleteCharacters) {
               if (endDelay > 0) {
@@ -64,7 +63,7 @@ const Text = ({
                 onAnimationEnd();
               }
             } else {
-              if (time >= elapsed + DEL_INTERVAL) {
+              if (time >= elapsed + deleteInterval) {
                 setString(children.substring(0, curLength - 1));
               } else {
                 window.requestAnimationFrame(updateString);
@@ -116,6 +115,9 @@ Text.defaultProps = {
   endDelay: false,
   cursorCharacter: '|',
   startAnimation: true,
+  typingSpeed: 200, // WPM
+  deleteSpeed: 400, // WPM
+  deleteDelay: 1000, // ms
   onAnimationEnd: () => {
     console.log('onAnimationEnd => 0');
   }
