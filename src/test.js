@@ -11,10 +11,10 @@ afterEach(() => {
   cleanup();
 });
 
-/* <Text /> */
+// Unit tests for <Text />
 
 describe('<Text /> component', () => {
-  // render text passed as children
+  // render string passed as children
   it('<Text/> renders text passed as children', done => {
     new Promise(resolve => {
       const { container } = render(
@@ -152,16 +152,36 @@ describe('<Text /> component', () => {
     }).then(() => {
       done();
       expect(div).toMatchSnapshot();
-    });    
-  })
+    });
+  });
+
+  // keep cursor after animation
+  it('<Text/> keep cursor after animation', done => {
+    new Promise(resolve => {
+      const { container } = render(
+        <Text
+          hideCursor={false}
+          onAnimationEnd={() => {
+            resolve();
+          }}
+        >
+          Cursor hidden?
+        </Text>
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+    });
+  });
 });
 
 /* 
 <TypeMe />
   - renders without crashing
+  - renders with string passed as children
+  - renders with string passed as props
   - renders multiple instances 
-  - renders text passed as children
-  - renders text passed as props
   - animationEnd callback executed once successfully
 */
 
@@ -175,4 +195,14 @@ describe('<TypeMe /> component', () => {
       done();
     }, 1000);
   });
+
+  // // renders multiple instances
+  // it('<TypeMe/> renders multiple instances', done => {
+  //   const { container } = render(<TypeMe />);
+  //   setTimeout(() => {
+  //     div = container;
+  //     expect(div).toMatchSnapshot();
+  //     done();
+  //   }, 1000);
+  // })
 });

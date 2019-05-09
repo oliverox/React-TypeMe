@@ -19,6 +19,25 @@ exports[`<Text /> component <Text/> hides cursor after animation 1`] = `
 </div>
 `;
 
+exports[`<Text /> component <Text/> keep cursor after animation 1`] = `
+<div>
+  <span
+    class="ta-anim"
+  >
+    <span
+      class=""
+    >
+      Cursor hidden?
+    </span>
+    <span
+      class="ta-cursor ta-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
 exports[`<Text /> component <Text/> onAnimationEnd callback executed once successfully 1`] = `
 <div>
   <span
@@ -30,7 +49,7 @@ exports[`<Text /> component <Text/> onAnimationEnd callback executed once succes
       Hello!
     </span>
     <span
-      class="ta-cursor ta-blink"
+      class="ta-cursor ta-blink ta-hide"
     >
       |
     </span>
@@ -49,7 +68,7 @@ exports[`<Text /> component <Text/> renders text passed as children 1`] = `
       Hello!
     </span>
     <span
-      class="ta-cursor ta-blink"
+      class="ta-cursor ta-blink ta-hide"
     >
       |
     </span>
@@ -68,7 +87,7 @@ exports[`<Text /> component <Text/> renders text with deleted characters 1`] = `
       Hello
     </span>
     <span
-      class="ta-cursor ta-blink"
+      class="ta-cursor ta-blink ta-hide"
     >
       |
     </span>
@@ -87,7 +106,7 @@ exports[`<Text /> component <Text/> renders with a line break character 1`] = `
       Line break?
     </span>
     <span
-      class="ta-cursor ta-blink"
+      class="ta-cursor ta-blink ta-hide"
     >
       |
     </span>
@@ -107,7 +126,7 @@ exports[`<Text /> component <Text/> renders with new cursor character 1`] = `
       New cursor?
     </span>
     <span
-      class="ta-cursor ta-blink"
+      class="ta-cursor ta-blink ta-hide"
     >
       _
     </span>
@@ -126,7 +145,7 @@ exports[`<Text /> component <Text/> with manually triggered start animation 1`] 
       Yes
     </span>
     <span
-      class="ta-cursor ta-blink"
+      class="ta-cursor ta-blink ta-hide"
     >
       |
     </span>

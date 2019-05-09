@@ -14,7 +14,7 @@ const TypeMe = ({
   strings,
   children,
   className,
-  keepCursor,
+  hideCursor,
   startAnimation,
   cursorCharacter
 }) => {
@@ -50,7 +50,7 @@ const TypeMe = ({
         <Text
           startAnimation={startAnimation}
           className={className}
-          keepCursor={keepCursor}
+          hideCursor={hideCursor}
           cursorCharacter={cursorCharacter}
           onAnimationEnd={() => {
             console.log('Animation ended for', currentAnimationIndex);
@@ -73,7 +73,7 @@ const TypeMe = ({
         lastItem = (
           <Text
             className={className}
-            keepCursor={keepCursor ? i === len - 1 : false}
+            hideCursor={hideCursor ? i < len - 1 : true}
             key={`${INSTANCE_ID}-${index}`}
             startAnimation={index === currentAnimationIndex ? true : false}
             cursorCharacter={cursorCharacter}
@@ -145,7 +145,7 @@ const TypeMe = ({
 TypeMe.defaultProps = {
   startAnimation: true,
   cursorCharacter: '|',
-  keepCursor: true,
+  hideCursor: true,
   className: '',
   strings: []
 };

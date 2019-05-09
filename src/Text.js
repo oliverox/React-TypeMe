@@ -110,7 +110,7 @@ const Text = ({
 Text.defaultProps = {
   className: '',
   lineBreak: false,
-  hideCursor: false,
+  hideCursor: true,
   endDelay: false,
   cursorCharacter: '|',
   startAnimation: true,
