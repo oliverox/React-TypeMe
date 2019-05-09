@@ -13,44 +13,131 @@ afterEach(() => {
 
 /*
 <Text />
-- renders text passed as props
-- onAnimationEnd callback executes once after full text is rendered
-- delete characters 
-- add lineBreak after render
-- trigger startAnimation manually
-- change cursor
-- keep cursor after animation
-- hide cursor after animation
+  - change cursor
+  - keep cursor after animation
+  - hide cursor after animation
 */
 
-it('<Text/> renders text passed as children', done => {
-  new Promise(resolve => {
-    const { container } = render(
-      <Text
-        onAnimationEnd={() => {
-          resolve();
-        }}
-      >
-        Hello!
-      </Text>
-    );
-    div = container;
-  }).then(() => {
-    done();
-    expect(div).toMatchSnapshot();
+describe('<Text /> component', () => {
+  // render text passed as children
+  it('<Text/> renders text passed as children', done => {
+    new Promise(resolve => {
+      const { container } = render(
+        <Text
+          onAnimationEnd={() => {
+            resolve();
+          }}
+        >
+          Hello!
+        </Text>
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+    });
+  });
+
+  // onAnimationEnd callback executed once successfully
+  it(`<Text/> onAnimationEnd callback executed once successfully`, done => {
+    let cb;
+    new Promise(resolve => {
+      cb = jest.fn(() => {
+        resolve();
+      });
+      const { container } = render(<Text onAnimationEnd={cb}>Hello!</Text>);
+      div = container;
+    }).then(() => {
+      done();
+      expect(cb).toHaveBeenCalledTimes(1);
+      expect(div).toMatchSnapshot();
+      cb = null;
+    });
+  });
+
+  // delete characters
+  it('<Text/> renders text with deleted characters', done => {
+    new Promise(resolve => {
+      const { container } = render(
+        <Text
+          deleteCharacters={7}
+          onAnimationEnd={() => {
+            resolve();
+          }}
+        >
+          Hello world!
+        </Text>
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+    });
+  });
+
+  // add lineBreak after render
+  it('<Text/> renders with a line break character', done => {
+    new Promise(resolve => {
+      const { container } = render(
+        <Text
+          lineBreak={true}
+          onAnimationEnd={() => {
+            resolve();
+          }}
+        >
+          Line break?
+        </Text>
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+    });
+  });
+
+  // trigger startAnimation manually
+  it('<Text/> with manually triggered start animation', done => {
+    new Promise(resolve => {
+      const { container, rerender } = render(
+        <Text startAnimation={false}>Nope</Text>
+      );
+      setTimeout(() => {
+        rerender(
+          <Text
+            startAnimation={true}
+            onAnimationEnd={() => {
+              resolve();
+            }}
+          >
+            Yes
+          </Text>
+        );  
+      }, 500);
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+    });
   });
 });
 
 /* 
 <TypeMe />
-- renders without crashing
+  - renders without crashing
+  - renders multiple instances 
+  - renders text passed as children
+  - renders text passed as props
+  - animationEnd callback executed once successfully
 */
 
-it('<TypeMe/> renders without crashing', done => {
-  const { container } = render(<TypeMe />);
-  setTimeout(() => {
-    div = container;
-    expect(div).toMatchSnapshot();
-    done();
-  }, 1000);
+describe('<TypeMe /> component', () => {
+  // renders without crashing
+  it('<TypeMe/> renders without crashing', done => {
+    const { container } = render(<TypeMe />);
+    setTimeout(() => {
+      div = container;
+      expect(div).toMatchSnapshot();
+      done();
+    }, 1000);
+  });
 });
