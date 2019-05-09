@@ -179,6 +179,7 @@ describe('<Text /> component', () => {
 /* 
 <TypeMe />
   - renders without crashing
+  - onAnimationEnd called once when animation ends
   - renders with string passed as children
   - renders with string passed as props
   - renders multiple instances 
@@ -195,6 +196,29 @@ describe('<TypeMe /> component', () => {
       done();
     }, 1000);
   });
+
+  it('<TypeMe/> onAnimationEnd called once when animation ends', done => {
+    let cb;
+    new Promise(resolve => {
+      cb = jest.fn(() => {
+        resolve();
+      });
+      const { container } = render(<TypeMe onAnimationEnd={cb}>Hello!</TypeMe>);
+      div = container;
+    }).then(() => {
+      done();
+      expect(cb).toHaveBeenCalledTimes(1);
+      expect(div).toMatchSnapshot();
+    });
+  });
+  // it('<TypeMe/> renders with string passed as children', done => {
+  //   const { container } = render(<TypeMe />);
+  //   setTimeout(() => {
+  //     div = container;
+  //     expect(div).toMatchSnapshot();
+  //     done();
+  //   }, 1000);
+  // })
 
   // // renders multiple instances
   // it('<TypeMe/> renders multiple instances', done => {

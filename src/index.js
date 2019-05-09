@@ -16,6 +16,7 @@ const TypeMe = ({
   className,
   hideCursor,
   startAnimation,
+  onAnimationEnd,
   cursorCharacter
 }) => {
   const [currentAnimationIndex, setCurrentAnimationIndex] = useState(0);
@@ -52,9 +53,7 @@ const TypeMe = ({
           className={className}
           hideCursor={hideCursor}
           cursorCharacter={cursorCharacter}
-          onAnimationEnd={() => {
-            console.log('Animation ended for', currentAnimationIndex);
-          }}
+          onAnimationEnd={onAnimationEnd}
         >
           {children}
         </Text>
@@ -73,14 +72,16 @@ const TypeMe = ({
         lastItem = (
           <Text
             className={className}
-            hideCursor={hideCursor ? i < len - 1 : true}
+            hideCursor={!hideCursor && i >= len - 1 ? false : true}
             key={`${INSTANCE_ID}-${index}`}
             startAnimation={index === currentAnimationIndex ? true : false}
             cursorCharacter={cursorCharacter}
             onAnimationEnd={() => {
-              console.log('Animation ended for', currentAnimationIndex);
-              console.log('Setting current anim index to', currentAnimationIndex + 1);
-              setCurrentAnimationIndex(currentAnimationIndex + 1);
+              if (i >= len - 1) {
+                onAnimationEnd();
+              } else {
+                setCurrentAnimationIndex(currentAnimationIndex + 1);
+              }
             }}
           >
             {child}
@@ -105,9 +106,6 @@ const TypeMe = ({
               break;
 
             case Delay:
-              child.props
-                ? console.log('Setting Delay to', child.props.ms)
-                : console.log('No delay set');
               lastItem = React.cloneElement(lastItem, {
                 endDelay:
                   child.props && child.props.ms
@@ -120,10 +118,14 @@ const TypeMe = ({
             case Text:
               lastItem = React.cloneElement(child, {
                 key: `${INSTANCE_ID}-${index}`,
+                hideCursor: !hideCursor && i >= len - 1 ? false : true,
                 startAnimation: index === currentAnimationIndex ? true : false,
                 onAnimationEnd: () => {
-                  console.log('Animation ended for', currentAnimationIndex);
-                  setCurrentAnimationIndex(currentAnimationIndex + 1);
+                  if (i >= len - 1) {
+                    onAnimationEnd();
+                  } else {
+                    setCurrentAnimationIndex(currentAnimationIndex + 1);
+                  }
                 }
               });
               index++;
@@ -143,6 +145,7 @@ const TypeMe = ({
 };
 
 TypeMe.defaultProps = {
+  onAnimationEnd: () => {},
   startAnimation: true,
   cursorCharacter: '|',
   hideCursor: true,
