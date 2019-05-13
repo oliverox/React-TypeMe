@@ -20,6 +20,11 @@ const TypeMe = ({
   cursorCharacter
 }) => {
   const [currentAnimationIndex, setCurrentAnimationIndex] = useState(0);
+  let toRender;
+
+  if (!Array.isArray(strings) && strings.length > 0) {
+    throw 'Error: "strings" prop takes an array of strings.';
+  }
 
   useEffect(() => {
     if (window && !window._TYPEME) {
@@ -32,8 +37,12 @@ const TypeMe = ({
       let animName = 'ta-blink';
       let animStyle = `{0%{opacity:1;}49%{opacity:1;}50%{opacity:0;}100%{opacity:0;}}`;
       let keyframes = [
-        `.ta-hide{display:none}`,
-        `.ta-cursor{font:inherit;position:relative;top:-0.05ch;font-style: normal !important;}`,
+        `.ta-container{display:inline-block;}`,
+        `.ta-anim{float:left;}`,
+        `.ta-hide{visibility:hidden;}`,
+        `.ta-text{vertical-align:baseline;}`,
+        `.ta-cursor{font:inherit;position:relative;top:.1ch;font-style:normal !important;}`,
+        `.ta-anim .ta-cursor{font-size:130%;}`,
         `.ta-blink{animation:${animName} ${BLINK_SPEED}ms infinite;}`,
         `@keyframes ${animName}${animStyle}`,
         `@-webkit-keyframes ${animName}${animStyle}`
@@ -47,7 +56,7 @@ const TypeMe = ({
 
   if (children) {
     if (typeof children === 'string') {
-      return (
+      toRender = (
         <Text
           startAnimation={startAnimation}
           className={className}
@@ -59,19 +68,24 @@ const TypeMe = ({
         </Text>
       );
     } else {
-      return children;
+      toRender = children;
     }
   } else if (strings.length > 0) {
     const len = strings.length;
     let out = [],
       lastItem,
       index = 0;
+    let br = false;
+    let del = false;
     for (let i = 0; i < len; i++) {
       let child = strings[i];
+      console.log(child);
       if (typeof child === 'string') {
         lastItem = (
           <Text
+            index={index}
             className={className}
+            lineBreak={br}
             hideCursor={!hideCursor && i >= len - 1 ? false : true}
             key={`${INSTANCE_ID}-${index}`}
             startAnimation={index === currentAnimationIndex ? true : false}
@@ -87,6 +101,7 @@ const TypeMe = ({
             {child}
           </Text>
         );
+        br = false;
         index++;
       } else {
         if (lastItem) {
@@ -96,13 +111,12 @@ const TypeMe = ({
                 deleteCharacters: child.props.characters
               });
               out = out.slice(0, out.length - 1);
+              del = true;
               break;
 
             case 'LineBreak':
-              lastItem = React.cloneElement(lastItem, {
-                lineBreak: true
-              });
-              out = out.slice(0, out.length - 1);
+              // add clear:left on next element
+              br = true;
               break;
 
             case 'Delay':
@@ -118,6 +132,7 @@ const TypeMe = ({
             case 'Text':
               lastItem = React.cloneElement(child, {
                 key: `${INSTANCE_ID}-${index}`,
+                lineBreak: br,
                 hideCursor: !hideCursor && i >= len - 1 ? false : true,
                 startAnimation: index === currentAnimationIndex ? true : false,
                 onAnimationEnd: () => {
@@ -136,19 +151,22 @@ const TypeMe = ({
           }
         }
       }
-      out.push(lastItem);
+      if (!br) {
+        out.push(lastItem);
+      }
     }
-    return out;
+    toRender = out;
   } else {
     return null;
   }
+  return <span className="ta-container">{toRender}</span>;
 };
 
 TypeMe.defaultProps = {
   onAnimationEnd: () => {},
   startAnimation: true,
   cursorCharacter: '|',
-  hideCursor: true,
+  hideCursor: false,
   className: '',
   strings: []
 };

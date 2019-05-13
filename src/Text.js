@@ -5,6 +5,7 @@ const isServer = () => {
 };
 
 const Text = ({
+  index,
   children,
   endDelay,
   className,
@@ -18,8 +19,8 @@ const Text = ({
   cursorCharacter,
   deleteCharacters
 }) => {
-  const charInterval = 1000 * 60 / (typingSpeed * 5); // ms
-  const deleteInterval = 1000 * 60 / (deleteSpeed * 5); // ms
+  const charInterval = (1000 * 60) / (typingSpeed * 5); // ms
+  const deleteInterval = (1000 * 60) / (deleteSpeed * 5); // ms
   const [string, setString] = useState('');
   const [delayed, setDelayed] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -91,23 +92,33 @@ const Text = ({
     }
   }, [string, startAnimation]);
 
-  let cn = `${className}${className.length > 0 ? ' ta-cursor' : 'ta-cursor'}`;
+  let cn = 'ta-cursor';
   cn = `${cn}${animationEnded || delayed ? ' ta-blink' : ''}`;
   if (!startAnimation && !animationEnded) {
     cn = `${cn} ta-hide`;
   } else {
     cn = `${cn}${animationEnded && hideCursor ? ' ta-hide' : ''}`;
   }
+  let style = {};
+  if (lineBreak) {
+    style.clear = 'left';
+  }
+  if (index > 0 && !lineBreak) {
+    style.marginLeft = '-0.8ch';
+  }
   return (
-    <span className="ta-anim">
-      <span className={`${className}`}>{isServer() ? children : string}</span>
+    <span
+      className={`ta-anim${className.length > 0 ? ` ${className}` : ''}`}
+      style={style}
+    >
+      <span className="ta-text">{isServer() ? children : string}</span>
       {!isServer() && <span className={cn}>{cursorCharacter}</span>}
-      {lineBreak ? <br /> : null}
     </span>
   );
 };
 
 Text.defaultProps = {
+  index: 0,
   className: '',
   lineBreak: false,
   hideCursor: true,
