@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, cleanup } from 'react-testing-library';
-import TypeMe, { LineBreak } from '../index';
+import TypeMe, { LineBreak, Delete } from '../index';
 
 let div;
 let cb;
@@ -117,6 +117,25 @@ describe('<TypeMe /> component', () => {
       });
       const { container } = render(
         <TypeMe onAnimationEnd={cb} strings={['hello']} className="new" />
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+      expect(cb).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('renders with deleted characters', done => {
+    new Promise(resolve => {
+      cb = jest.fn(() => {
+        resolve();
+      });
+      const { container } = render(
+        <TypeMe
+          onAnimationEnd={cb}
+          strings={['hello', <Delete characters={4} />, 'ola!']}
+        />
       );
       div = container;
     }).then(() => {

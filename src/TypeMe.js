@@ -64,16 +64,19 @@ const TypeMe = ({
 
       case 'Delete':
         let delay = false;
+        let newDeleteChar = 0;
         if (deleteChar === 0) {
-          setDeleteChar(item.props.characters);
+          newDeleteChar = item.props.characters;
+          setDeleteChar(newDeleteChar);
           delay = true;
         } else {
-          setDeleteChar(prevDeleteChar => prevDeleteChar - 1);
+          newDeleteChar = deleteChar - 1;
+          setDeleteChar(newDeleteChar);
         }
         return {
           delay,
           direction: BACKSPACE,
-          chars: deleteChar
+          chars: newDeleteChar
         };
 
       case 'Delay':
@@ -170,7 +173,7 @@ const TypeMe = ({
           }
         } else if (direction === LINEBREAK) {
           // break line
-          let nts = `${newTypedString}•`
+          let nts = `${newTypedString}•`;
           setNewTypedString(nts);
           window.requestAnimationFrame(updateTypedString(typingInterval, nts));
           setItemIndex(prevIndex => prevIndex + 1);
@@ -186,10 +189,14 @@ const TypeMe = ({
           }
           if (nextItem.delay) {
             window.setTimeout(() => {
-              window.requestAnimationFrame(updateTypedString(deleteInterval, nts));
+              window.requestAnimationFrame(
+                updateTypedString(deleteInterval, nts)
+              );
             }, backspaceDelay);
           } else {
-            window.requestAnimationFrame(updateTypedString(deleteInterval, nts));
+            window.requestAnimationFrame(
+              updateTypedString(deleteInterval, nts)
+            );
           }
         } else if (direction === PAUSE) {
           // pause animation

@@ -123,6 +123,23 @@ exports[`<TypeMe /> component renders with className as prop 1`] = `
 </div>
 `;
 
+exports[`<TypeMe /> component renders with deleted characters 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    <span>
+      hola!
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
 exports[`<TypeMe /> component renders without crashing 1`] = `
 <div>
   <span
