@@ -1,13 +1,14 @@
 import React from 'react';
 import { render, cleanup } from 'react-testing-library';
-import TypeMe from '../index';
-// import Text from './Text';
+import TypeMe, { LineBreak } from '../index';
 
 let div;
+let cb;
 
 afterEach(() => {
   document.body.removeChild(div);
   div = null;
+  cb = null;
   cleanup();
 });
 
@@ -21,9 +22,8 @@ afterEach(() => {
   - animationEnd callback executed once successfully
 */
 
-describe('<TypeMe/> component', () => {
-  // renders without crashing
-  it('<TypeMe/> renders without crashing', done => {
+describe('<TypeMe /> component', () => {
+  it('renders without crashing', done => {
     const { container } = render(<TypeMe />);
     setTimeout(() => {
       div = container;
@@ -32,13 +32,12 @@ describe('<TypeMe/> component', () => {
     }, 1000);
   });
 
-  it('<TypeMe/> onAnimationEnd called once when animation ends', done => {
-    let cb;
+  it('renders children passed as string', done => {
     new Promise(resolve => {
       cb = jest.fn(() => {
         resolve();
       });
-      const { container } = render(<TypeMe onAnimationEnd={cb}>Hello!</TypeMe>);
+      const { container } = render(<TypeMe onAnimationEnd={cb}>hello</TypeMe>);
       div = container;
     }).then(() => {
       done();
@@ -46,6 +45,120 @@ describe('<TypeMe/> component', () => {
       expect(div).toMatchSnapshot();
     });
   });
+
+  it('renders children passed as array', done => {
+    new Promise(resolve => {
+      cb = jest.fn(() => {
+        resolve();
+      });
+      const { container } = render(
+        <TypeMe onAnimationEnd={cb}>{['hello']}</TypeMe>
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+      expect(cb).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('renders string passed as prop', done => {
+    new Promise(resolve => {
+      cb = jest.fn(() => {
+        resolve();
+      });
+      const { container } = render(
+        <TypeMe onAnimationEnd={cb} strings={'hello'} />
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+      expect(cb).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('renders array passed as prop', done => {
+    new Promise(resolve => {
+      cb = jest.fn(() => {
+        resolve();
+      });
+      const { container } = render(
+        <TypeMe onAnimationEnd={cb} strings={['hello']} />
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+      expect(cb).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('renders multiple items passed as prop', done => {
+    new Promise(resolve => {
+      cb = jest.fn(() => {
+        resolve();
+      });
+      const { container } = render(
+        <TypeMe onAnimationEnd={cb} strings={['hello', 'there']} />
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+      expect(cb).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('renders with className as prop', done => {
+    new Promise(resolve => {
+      cb = jest.fn(() => {
+        resolve();
+      });
+      const { container } = render(
+        <TypeMe onAnimationEnd={cb} strings={['hello']} className="new" />
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+      expect(cb).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('renders break line', done => {
+    new Promise(resolve => {
+      cb = jest.fn(() => {
+        resolve();
+      });
+      const { container } = render(
+        <TypeMe
+          onAnimationEnd={cb}
+          strings={['hello', <LineBreak />, 'there']}
+        />
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+      expect(cb).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  // it('<TypeMe/> onAnimationEnd called once when animation ends', done => {
+  //   let cb;
+  //   new Promise(resolve => {
+  //     cb = jest.fn(() => {
+  //       resolve();
+  //     });
+  //     const { container } = render(<TypeMe onAnimationEnd={cb}>Hello!</TypeMe>);
+  //     div = container;
+  //   }).then(() => {
+  //     done();
+  //     expect(cb).toHaveBeenCalledTimes(1);
+  //     expect(div).toMatchSnapshot();
+  //   });
+  // });
   // it('<TypeMe/> renders with string passed as children', done => {
   //   const { container } = render(<TypeMe />);
   //   setTimeout(() => {

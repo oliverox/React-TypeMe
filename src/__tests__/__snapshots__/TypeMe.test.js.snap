@@ -1,17 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<TypeMe/> component <TypeMe/> onAnimationEnd called once when animation ends 1`] = `
+exports[`<TypeMe /> component renders array passed as prop 1`] = `
 <div>
   <span
-    class="ta-anim"
+    class="tm"
   >
-    <span
-      class=""
-    >
-      Hello!
+    <span>
+      hello
     </span>
     <span
-      class="ta-cursor ta-blink ta-hide"
+      class="tm-cursor tm-blink"
     >
       |
     </span>
@@ -19,4 +17,123 @@ exports[`<TypeMe/> component <TypeMe/> onAnimationEnd called once when animation
 </div>
 `;
 
-exports[`<TypeMe/> component <TypeMe/> renders without crashing 1`] = `<div />`;
+exports[`<TypeMe /> component renders break line 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    <span>
+      hello
+      <br />
+    </span>
+    <span>
+      there
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
+exports[`<TypeMe /> component renders children passed as array 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    <span>
+      hello
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
+exports[`<TypeMe /> component renders children passed as string 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    <span>
+      hello
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
+exports[`<TypeMe /> component renders multiple items passed as prop 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    <span>
+      hellothere
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
+exports[`<TypeMe /> component renders string passed as prop 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    <span>
+      hello
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
+exports[`<TypeMe /> component renders with className as prop 1`] = `
+<div>
+  <span
+    class="tm new"
+  >
+    <span>
+      hello
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
+exports[`<TypeMe /> component renders without crashing 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    
+    <span
+      class="tm-cursor tm-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;

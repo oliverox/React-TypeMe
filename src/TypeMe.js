@@ -1,70 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-const BLINK_SPEED = 800; // ms
-const INSTANCE_ID =
-  Math.random()
-    .toString(36)
-    .substring(2, 5) +
-  Math.random()
-    .toString(36)
-    .substring(2, 5);
 const FORWARD = 1;
 const BACKSPACE = -1;
 const LINEBREAK = 2;
 const PAUSE = 3;
 const END = 0;
-
-let nextItem;
-let elapsed = 0;
-let charIndex = 0;
-let itemIndex = 0;
-let deleteChar = 0;
-let newTypedString = '';
-
-const getNextItem = items => {
-  let item;
-  if (itemIndex >= items.length) {
-    return {
-      direction: END // animation ends
-    };
-  }
-  item = items[itemIndex];
-  if (typeof item === 'string') {
-    return {
-      direction: FORWARD,
-      string: item
-    };
-  }
-  switch (item.type.name) {
-    case 'LineBreak':
-      return {
-        direction: LINEBREAK
-      };
-
-    case 'Delete':
-      let delay = false;
-      if (deleteChar === 0) {
-        deleteChar = item.props.characters;
-        delay = true;
-      } else {
-        deleteChar--;
-      }
-      return {
-        delay,
-        direction: BACKSPACE,
-        chars: deleteChar
-      };
-
-    case 'Delay':
-      return {
-        direction: PAUSE,
-        ms: item.props.ms
-      };
-
-    default:
-      throw 'Error: Invalid item passed in `strings` props or as children.';
-  }
-};
 
 const TypeMe = ({
   strings,
@@ -76,15 +16,78 @@ const TypeMe = ({
   backspaceDelay,
   startAnimation,
   onAnimationEnd,
-  cursorCharacter
+  cursorCharacter,
+  cursorBlinkSpeed
 }) => {
+  const [instanceId] = useState(
+    () =>
+      Math.random()
+        .toString(36)
+        .substring(2, 5) +
+      Math.random()
+        .toString(36)
+        .substring(2, 5)
+  );
+  const [deleteChar, setDeleteChar] = useState(0);
+  const [itemIndex, setItemIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
   const [animationPaused, setAnimationPaused] = useState(false);
   const [animationEnded, setAnimationEnded] = useState(false);
   const [typedString, setTypedString] = useState('');
+  const [newTypedString, setNewTypedString] = useState('');
   const typingInterval = (1000 * 60) / (typingSpeed * 5); // ms
   const deleteInterval = (1000 * 60) / (deleteSpeed * 5); // ms
 
-  const updateTypedString = interval => {
+  let nextItem;
+  let elapsed = 0;
+
+  const getNextItem = items => {
+    // console.log('getNextItem()', items);
+    let item;
+    if (itemIndex >= items.length) {
+      return {
+        direction: END // animation ends
+      };
+    }
+    item = items[itemIndex];
+    if (typeof item === 'string') {
+      return {
+        direction: FORWARD,
+        string: item
+      };
+    }
+    switch (item.type.name) {
+      case 'LineBreak':
+        return {
+          direction: LINEBREAK
+        };
+
+      case 'Delete':
+        let delay = false;
+        if (deleteChar === 0) {
+          setDeleteChar(item.props.characters);
+          delay = true;
+        } else {
+          setDeleteChar(prevDeleteChar => prevDeleteChar - 1);
+        }
+        return {
+          delay,
+          direction: BACKSPACE,
+          chars: deleteChar
+        };
+
+      case 'Delay':
+        return {
+          direction: PAUSE,
+          ms: item.props.ms
+        };
+
+      default:
+        throw 'Error: Invalid item passed in `strings` props or as children.';
+    }
+  };
+
+  const updateTypedString = (interval, nts) => {
     return time => {
       if (elapsed === 0) {
         elapsed = time;
@@ -92,11 +95,11 @@ const TypeMe = ({
       // console.log('time:', time, elapsed + interval);
       if (time >= elapsed + interval) {
         elapsed = time;
-        const split = newTypedString.split('•');
+        const split = nts.split('•');
         setTypedString(
           split.map((str, index) => {
             return (
-              <span key={`${INSTANCE_ID}-${index}`}>
+              <span key={`${instanceId}-${index}`}>
                 {str}
                 {split.length - index > 1 ? <br /> : null}
               </span>
@@ -104,7 +107,7 @@ const TypeMe = ({
           })
         );
       } else {
-        window.requestAnimationFrame(updateTypedString(interval));
+        window.requestAnimationFrame(updateTypedString(interval, nts));
       }
     };
   };
@@ -121,7 +124,7 @@ const TypeMe = ({
       let animStyle = `{0%{opacity:1;}49%{opacity:1;}50%{opacity:0;}100%{opacity:0;}}`;
       let keyframes = [
         `.tm-cursor{display:inline-block;transform:scale(1.2);font:inherit;position:relative;font-style:normal !important;}`,
-        `.tm-blink{animation:${animName} ${BLINK_SPEED}ms infinite;}`,
+        `.tm-blink{animation:${animName} ${cursorBlinkSpeed}ms infinite;}`,
         `@keyframes ${animName}${animStyle}`,
         `@-webkit-keyframes ${animName}${animStyle}`
       ];
@@ -156,41 +159,42 @@ const TypeMe = ({
       } else {
         if (direction === FORWARD) {
           // type next character
-          newTypedString = `${newTypedString}${nextItem.string[charIndex]}`;
-          charIndex++;
-          if (charIndex >= nextItem.string.length) {
-            charIndex = 0;
-            itemIndex++;
+          let nts = `${newTypedString}${nextItem.string[charIndex]}`;
+          setNewTypedString(nts);
+          window.requestAnimationFrame(updateTypedString(typingInterval, nts));
+          if (charIndex >= nextItem.string.length - 1) {
+            setCharIndex(0);
+            setItemIndex(prevIndex => prevIndex + 1);
+          } else {
+            setCharIndex(prevIndex => prevIndex + 1);
           }
-          window.requestAnimationFrame(updateTypedString(typingInterval));
         } else if (direction === LINEBREAK) {
           // break line
-          newTypedString = `${newTypedString}•`;
-          itemIndex++;
-          charIndex = 0;
-          window.requestAnimationFrame(updateTypedString(typingInterval));
+          let nts = `${newTypedString}•`
+          setNewTypedString(nts);
+          window.requestAnimationFrame(updateTypedString(typingInterval, nts));
+          setItemIndex(prevIndex => prevIndex + 1);
+          setCharIndex(0);
         } else if (direction === BACKSPACE) {
           // delete previous character
-          newTypedString = `${newTypedString.substring(
-            0,
-            newTypedString.length - 1
-          )}`;
+          let nts = `${newTypedString.substring(0, newTypedString.length - 1)}`;
+          setNewTypedString(nts);
           if (nextItem.chars === 1) {
-            itemIndex++;
-            charIndex = 0;
-            deleteChar = 0;
+            setItemIndex(prevIndex => prevIndex + 1);
+            setCharIndex(0);
+            setDeleteChar(0);
           }
           if (nextItem.delay) {
             window.setTimeout(() => {
-              window.requestAnimationFrame(updateTypedString(deleteInterval));
+              window.requestAnimationFrame(updateTypedString(deleteInterval, nts));
             }, backspaceDelay);
           } else {
-            window.requestAnimationFrame(updateTypedString(deleteInterval));
+            window.requestAnimationFrame(updateTypedString(deleteInterval, nts));
           }
         } else if (direction === PAUSE) {
           // pause animation
-          itemIndex++;
-          charIndex = 0;
+          setItemIndex(prevIndex => prevIndex + 1);
+          setCharIndex(0);
           window.setTimeout(() => {
             setAnimationPaused(false);
             window.requestAnimationFrame(updateTypedString(typingInterval));
@@ -212,7 +216,7 @@ const TypeMe = ({
   return (
     <span className={containerCn}>
       {typedString}
-      <span key={`${INSTANCE_ID}-cur`} className={cursorCn}>
+      <span key={`${instanceId}-cur`} className={cursorCn}>
         {animationEnded && hideCursor ? '' : cursorCharacter}
       </span>
     </span>
@@ -223,6 +227,7 @@ TypeMe.defaultProps = {
   onAnimationEnd: () => {},
   startAnimation: true,
   cursorCharacter: '|',
+  cursorBlinkSpeed: 800, // ms
   backspaceDelay: 500, // ms
   typingSpeed: 100, // WPM
   deleteSpeed: 800, // WPM
