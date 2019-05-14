@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Text from './Text';
 
 const BLINK_SPEED = 800; // ms
 const INSTANCE_ID =
@@ -10,16 +9,78 @@ const INSTANCE_ID =
     .toString(36)
     .substring(2, 5);
 
+let toRender;
+let elapsed = 0;
+let charIndex = 0;
+let itemIndex = 0;
+let nextItem;
+let newTypedString = '';
+let currentFinalString = '';
+let deleteChar = 0;
+
+
+const getNextItem = item => {
+  if (typeof item === 'string') {
+    return {
+      direction: 1,
+      string: item
+    }
+  }
+  switch (item.type.name) {
+    case 'LineBreak':
+      // return '•';
+      return {
+        direction: 0,
+      }
+    
+    case 'Delete':
+      return {
+        direction: -1,
+        chars: item.props.characters
+      }
+
+    default:
+      throw('Error: Invalid item passed in `strings` props');
+  }
+};
+
+
 const TypeMe = ({
   strings,
   children,
   className,
   hideCursor,
+  typingSpeed,
   startAnimation,
   onAnimationEnd,
   cursorCharacter
 }) => {
-  const [currentAnimationIndex, setCurrentAnimationIndex] = useState(0);
+  const [itemIndex, setItemIndex] = useState(0);
+  const [typedString, setTypedString] = useState('');
+  const charInterval = (1000 * 60) / (typingSpeed * 5); // ms
+
+  const updateTypedString = time => {
+    if (elapsed === 0) {
+      elapsed = time;
+    }
+    console.log('time:', time, elapsed + charInterval);
+    if (time >= elapsed + charInterval) {
+      elapsed = time;
+      const split = newTypedString.split('•');
+      setTypedString(
+        split.map((str, index) => {
+          return (
+            <span key={`${INSTANCE_ID}-${index}`}>
+              {str}
+              {split.length - index > 1 ? <br /> : null}
+            </span>
+          );
+        })
+      );
+    } else {
+      window.requestAnimationFrame(updateTypedString);
+    }
+  };
 
   useEffect(() => {
     if (window && !window._TYPEME) {
@@ -29,12 +90,12 @@ const TypeMe = ({
         document.head.append(style);
         styleSheet = style.sheet;
       }
-      let animName = 'ta-blink';
+      let animName = 'tm-blink';
       let animStyle = `{0%{opacity:1;}49%{opacity:1;}50%{opacity:0;}100%{opacity:0;}}`;
       let keyframes = [
-        `.ta-hide{display:none}`,
-        `.ta-cursor{font:inherit;position:relative;top:-0.05ch;font-style: normal !important;}`,
-        `.ta-blink{animation:${animName} ${BLINK_SPEED}ms infinite;}`,
+        `.tm-hide{display:none}`,
+        `.tm-cursor{display:inline-block;transform:scale(1.2);font:inherit;position:relative;font-style:normal !important;}`,
+        `.tm-blink{animation:${animName} ${BLINK_SPEED}ms infinite;}`,
         `@keyframes ${animName}${animStyle}`,
         `@-webkit-keyframes ${animName}${animStyle}`
       ];
@@ -45,109 +106,66 @@ const TypeMe = ({
     }
   }, []);
 
-  if (children) {
-    if (typeof children === 'string') {
-      return (
-        <Text
-          startAnimation={startAnimation}
-          className={className}
-          hideCursor={hideCursor}
-          cursorCharacter={cursorCharacter}
-          onAnimationEnd={onAnimationEnd}
-        >
-          {children}
-        </Text>
-      );
-    } else {
-      return children;
+  useEffect(() => {
+    if (startAnimation) {
+      
+      window.requestAnimationFrame(updateTypedString)
     }
-  } else if (strings.length > 0) {
-    const len = strings.length;
-    let out = [],
-      lastItem,
-      index = 0;
-    for (let i = 0; i < len; i++) {
-      let child = strings[i];
-      if (typeof child === 'string') {
-        lastItem = (
-          <Text
-            className={className}
-            hideCursor={!hideCursor && i >= len - 1 ? false : true}
-            key={`${INSTANCE_ID}-${index}`}
-            startAnimation={index === currentAnimationIndex ? true : false}
-            cursorCharacter={cursorCharacter}
-            onAnimationEnd={() => {
-              if (i >= len - 1) {
-                onAnimationEnd();
-              } else {
-                setCurrentAnimationIndex(currentAnimationIndex + 1);
-              }
-            }}
-          >
-            {child}
-          </Text>
-        );
-        index++;
-      } else {
-        if (lastItem) {
-          switch (child.type.name) {
-            case 'Delete':
-              lastItem = React.cloneElement(lastItem, {
-                deleteCharacters: child.props.characters
-              });
-              out = out.slice(0, out.length - 1);
-              break;
+  }, [startAnimation]); 
 
-            case 'LineBreak':
-              lastItem = React.cloneElement(lastItem, {
-                lineBreak: true
-              });
-              out = out.slice(0, out.length - 1);
-              break;
+  
+  // if (nextItem.direction > 0) {
+  //   charIndex++;
+  //   newTypedString = nextItem.string.substring(0, charIndex);
+  //   window.requestAnimationFrame(updateTypedString);
+  // }
 
-            case 'Delay':
-              lastItem = React.cloneElement(lastItem, {
-                endDelay:
-                  child.props && child.props.ms
-                    ? child.props.ms
-                    : child.defaultProps.ms
-              });
-              out = out.slice(0, out.length - 1);
-              break;
-
-            case 'Text':
-              lastItem = React.cloneElement(child, {
-                key: `${INSTANCE_ID}-${index}`,
-                hideCursor: !hideCursor && i >= len - 1 ? false : true,
-                startAnimation: index === currentAnimationIndex ? true : false,
-                onAnimationEnd: () => {
-                  if (i >= len - 1) {
-                    onAnimationEnd();
-                  } else {
-                    setCurrentAnimationIndex(currentAnimationIndex + 1);
-                  }
-                }
-              });
-              index++;
-              break;
-
-            default:
-              break;
-          }
-        }
-      }
-      out.push(lastItem);
-    }
-    return out;
-  } else {
-    return null;
-  }
+  toRender = (
+    <span className="tm">
+      {typedString}
+      <span className="tm-cursor">{cursorCharacter}</span>
+    </span>
+  );
+  // let next = getNextString(strings[itemIndex]);
+  // switch (typeof(next)) {
+  //   case 'number':
+  //     if (next < 0) {
+  //       deleteChar = next;
+  //       newTypedString = newTypedString.substring(0, newTypedString.length - 1);
+  //       window.requestAnimationFrame(updateTypedString);
+  //     }        
+  //     break;
+    
+  //   case 'string':
+  //     newTypedString = `${newTypedString}${next[charIndex]}`;
+  //     charIndex = charIndex + 1;
+  //     if (charIndex < currentFinalString.length) {
+  //       newTypedString = `${newTypedString}${currentFinalString[charIndex]}`;
+  //       window.requestAnimationFrame(updateTypedString);
+  //     } else {
+  //       if (itemIndex < strings.length - 1) {
+  //         charIndex = 0;
+  //         itemIndex = itemIndex + 1;
+  //         currentFinalString = getNextString(strings[itemIndex]);
+  //         newTypedString = `${newTypedString} ${currentFinalString[charIndex]}`;
+  //         window.requestAnimationFrame(updateTypedString);
+  //       } else {
+  //         onAnimationEnd();
+  //       }
+  //     }
+  //     break;
+          
+  //   default:
+  //     break;
+  // }
+  return toRender;
 };
 
 TypeMe.defaultProps = {
   onAnimationEnd: () => {},
   startAnimation: true,
   cursorCharacter: '|',
+  typingSpeed: 100, // WPM
   hideCursor: true,
   className: '',
   strings: []
