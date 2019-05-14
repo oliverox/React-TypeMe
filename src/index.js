@@ -1,5 +1,4 @@
 import TypeMe from './TypeMe';
-import Text from './Text';
 
 const Delete = () => null;
 Delete.defaultProps = {
@@ -13,5 +12,5 @@ Delay.defaultProps = {
   ms: 0
 };
 
-export { Delete, Delay, LineBreak, Text };
+export { Delete, Delay, LineBreak };
 export default TypeMe;
