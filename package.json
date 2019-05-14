@@ -1,6 +1,6 @@
 {
   "name": "react-typeme",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Yet another React typewriter animation component, simple and powerful.",
   "main": "src/index.js",
   "browser": "dist/react-typeme.umd.js",
