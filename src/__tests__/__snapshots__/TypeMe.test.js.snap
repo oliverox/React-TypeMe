@@ -123,6 +123,23 @@ exports[`<TypeMe /> component renders with className as prop 1`] = `
 </div>
 `;
 
+exports[`<TypeMe /> component renders with custom cursor character 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    <span>
+      hello
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    >
+      _
+    </span>
+  </span>
+</div>
+`;
+
 exports[`<TypeMe /> component renders with deleted characters 1`] = `
 <div>
   <span
@@ -130,6 +147,38 @@ exports[`<TypeMe /> component renders with deleted characters 1`] = `
   >
     <span>
       hola!
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
+exports[`<TypeMe /> component renders with hidden cursor after animation ends 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    <span>
+      hello
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    />
+  </span>
+</div>
+`;
+
+exports[`<TypeMe /> component renders with manually triggered startAnimation 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    <span>
+      Yes
     </span>
     <span
       class="tm-cursor tm-blink"

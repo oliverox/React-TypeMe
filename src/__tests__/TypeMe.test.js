@@ -164,6 +164,70 @@ describe('<TypeMe /> component', () => {
     });
   });
 
+  it('renders with manually triggered startAnimation', done => {
+    new Promise(resolve => {
+      const { container, rerender } = render(
+        <TypeMe startAnimation={false}>Nope</TypeMe>
+      );
+      setTimeout(() => {
+        rerender(
+          <TypeMe
+            startAnimation={true}
+            onAnimationEnd={() => {
+              resolve();
+            }}
+          >
+            Yes
+          </TypeMe>
+        );
+      }, 500);
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+    });
+  });
+
+  it('renders with custom cursor character', done => {
+    new Promise(resolve => {
+      cb = jest.fn(() => {
+        resolve();
+      });
+      const { container } = render(
+        <TypeMe
+          onAnimationEnd={cb}
+          cursorCharacter="_"
+          strings={['hello']}
+        />
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+      expect(cb).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('renders with hidden cursor after animation ends', done => {
+    new Promise(resolve => {
+      cb = jest.fn(() => {
+        resolve();
+      });
+      const { container } = render(
+        <TypeMe
+          onAnimationEnd={cb}
+          hideCursor={true}
+          strings={['hello']}
+        />
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+      expect(cb).toHaveBeenCalledTimes(1);
+    });
+  });
+
   // it('<TypeMe/> onAnimationEnd called once when animation ends', done => {
   //   let cb;
   //   new Promise(resolve => {
