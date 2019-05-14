@@ -56,7 +56,7 @@ const TypeMe = ({
         string: item
       };
     }
-    switch (item.type.name) {
+    switch (item.type.displayName) {
       case 'LineBreak':
         return {
           direction: LINEBREAK

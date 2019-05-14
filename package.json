@@ -6,8 +6,8 @@
   "browser": "dist/react-typeme.umd.js",
   "scripts": {
     "build": "rollup --config ./rollup.config.js",
-    "test": "jest",
-    "updatetest": "jest -u"
+    "build-prod": "rollup --config ./rollup.config.prod.js",
+    "test": "jest"
   },
   "author": "Oliver Oxenham",
   "license": "MIT",
