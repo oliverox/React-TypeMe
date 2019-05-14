@@ -204,7 +204,7 @@ const TypeMe = ({
           setCharIndex(0);
           window.setTimeout(() => {
             setAnimationPaused(false);
-            window.requestAnimationFrame(updateTypedString(typingInterval));
+            window.requestAnimationFrame(updateTypedString(typingInterval, newTypedString));
           }, nextItem.ms);
           setAnimationPaused(true);
         }

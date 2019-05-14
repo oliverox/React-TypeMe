@@ -140,6 +140,23 @@ exports[`<TypeMe /> component renders with custom cursor character 1`] = `
 </div>
 `;
 
+exports[`<TypeMe /> component renders with delay 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    <span>
+      hellothere
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
 exports[`<TypeMe /> component renders with deleted characters 1`] = `
 <div>
   <span

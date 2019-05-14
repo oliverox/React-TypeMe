@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, cleanup } from 'react-testing-library';
-import TypeMe, { LineBreak, Delete } from '../index';
+import TypeMe, { LineBreak, Delete, Delay } from '../index';
 
 let div;
 let cb;
@@ -11,16 +11,6 @@ afterEach(() => {
   cb = null;
   cleanup();
 });
-
-/* 
-<TypeMe />
-  - renders without crashing
-  - onAnimationEnd called once when animation ends
-  - renders with string passed as children
-  - renders with string passed as props
-  - renders multiple instances 
-  - animationEnd callback executed once successfully
-*/
 
 describe('<TypeMe /> component', () => {
   it('renders without crashing', done => {
@@ -218,6 +208,25 @@ describe('<TypeMe /> component', () => {
           onAnimationEnd={cb}
           hideCursor={true}
           strings={['hello']}
+        />
+      );
+      div = container;
+    }).then(() => {
+      done();
+      expect(div).toMatchSnapshot();
+      expect(cb).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('renders with delay', done => {
+    new Promise(resolve => {
+      cb = jest.fn(() => {
+        resolve();
+      });
+      const { container } = render(
+        <TypeMe
+          onAnimationEnd={cb}
+          strings={['hello', <Delay ms={100} />, 'there']}
         />
       );
       div = container;
