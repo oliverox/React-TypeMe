@@ -7,7 +7,9 @@
   "scripts": {
     "build": "rollup --config ./rollup.config.js",
     "build-prod": "rollup --config ./rollup.config.prod.js",
-    "test": "jest"
+    "test": "jest",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "author": "Oliver Oxenham",
   "license": "MIT",
@@ -19,7 +21,12 @@
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
+    "@storybook/addon-actions": "^5.0.11",
+    "@storybook/addon-links": "^5.0.11",
+    "@storybook/addons": "^5.0.11",
+    "@storybook/react": "^5.0.11",
     "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
     "babel-preset-minify": "^0.5.0",
     "jest": "^24.8.0",
     "react": "^16.9.0-alpha.0",

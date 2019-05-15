@@ -67,7 +67,7 @@ const TypeMe = ({
         let newDeleteChar = 0;
         if (deleteChar === 0) {
           if (item.props.characters === 0) {
-            newDeleteChar = newTypedString.length - 1;
+            newDeleteChar = newTypedString.length;
           } else {
             newDeleteChar = item.props.characters;
           }
@@ -245,7 +245,7 @@ TypeMe.defaultProps = {
   cursorCharacter: '|',
   cursorBlinkSpeed: 800, // ms
   backspaceDelay: 500, // ms
-  typingSpeed: 100, // WPM
+  typingSpeed: 200, // WPM
   deleteSpeed: 800, // WPM
   hideCursor: false,
   className: '',
