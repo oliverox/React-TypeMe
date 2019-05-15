@@ -43,7 +43,6 @@ const TypeMe = ({
   let elapsed = 0;
 
   const getNextItem = items => {
-    // console.log('getNextItem()', items);
     let item;
     if (itemIndex >= items.length) {
       return {
@@ -100,7 +99,6 @@ const TypeMe = ({
       if (elapsed === 0) {
         elapsed = time;
       }
-      // console.log('time:', time, elapsed + interval);
       if (time >= elapsed + interval) {
         elapsed = time;
         const split = nts.split('•');
@@ -144,7 +142,6 @@ const TypeMe = ({
   }, []);
 
   useEffect(() => {
-    // console.log('start animation is', startAnimation);
     if (startAnimation) {
       let items = [];
       if (strings && Array.isArray(strings)) {

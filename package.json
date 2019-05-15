@@ -1,7 +1,7 @@
 {
   "name": "react-typeme",
   "version": "0.2.1",
-  "description": "Yet another React typewriter animation component, simple and powerful.",
+  "description": "A tiny React typewriter animation component, simple and powerful.",
   "main": "src/index.js",
   "browser": "dist/react-typeme.umd.js",
   "scripts": {
@@ -40,10 +40,15 @@
   },
   "keywords": [
     "react",
-    "typewriter",
     "typeme",
     "typeit",
-    "animate"
+    "typeout",
+    "typewrite",
+    "typewriter",
+    "type writer",
+    "typewriting",
+    "type letters",
+    "type characters"
   ],
   "bugs": {
     "url": "https://github.com/oliverox/react-typeme/issues"
