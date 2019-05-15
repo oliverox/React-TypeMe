@@ -58,9 +58,9 @@ import TypeMe, { LineBreak, Delete } from 'react-typeme';
 
 Personal or Open Source - **FREE!**
 
-Single Commercial License - Purchase Here
+Single Commercial License - *Coming soon*
 
-Extended Commercial License - Purchase Here
+Extended Commercial License - *Coming soon*
 
 
 ## License
