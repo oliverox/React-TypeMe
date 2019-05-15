@@ -95,7 +95,8 @@ const TypeMe = ({
   };
 
   const updateTypedString = (interval, nts) => {
-    return time => {
+    return () => {
+      let time = performance.now();
       if (elapsed === 0) {
         elapsed = time;
       }
@@ -113,7 +114,7 @@ const TypeMe = ({
           })
         );
       } else {
-        window.requestAnimationFrame(updateTypedString(interval, nts));
+        window.setTimeout(updateTypedString(interval, nts), interval);
       }
     };
   };
@@ -173,7 +174,10 @@ const TypeMe = ({
           // type next character
           let nts = `${newTypedString}${nextItem.string[charIndex]}`;
           setNewTypedString(nts);
-          window.requestAnimationFrame(updateTypedString(typingInterval, nts));
+          window.setTimeout(
+            updateTypedString(typingInterval, nts),
+            typingInterval
+          );
           if (charIndex >= nextItem.string.length - 1) {
             setCharIndex(0);
             setItemIndex(prevIndex => prevIndex + 1);
@@ -184,7 +188,10 @@ const TypeMe = ({
           // break line
           let nts = `${newTypedString}•`;
           setNewTypedString(nts);
-          window.requestAnimationFrame(updateTypedString(typingInterval, nts));
+          window.setTimeout(
+            updateTypedString(typingInterval, nts),
+            typingInterval
+          );
           setItemIndex(prevIndex => prevIndex + 1);
           setCharIndex(0);
         } else if (direction === BACKSPACE) {
@@ -198,13 +205,15 @@ const TypeMe = ({
           }
           if (nextItem.delay) {
             window.setTimeout(() => {
-              window.requestAnimationFrame(
-                updateTypedString(deleteInterval, nts)
+              window.setTimeout(
+                updateTypedString(deleteInterval, nts),
+                deleteInterval
               );
             }, backspaceDelay);
           } else {
-            window.requestAnimationFrame(
-              updateTypedString(deleteInterval, nts)
+            window.setTimeout(
+              updateTypedString(deleteInterval, nts),
+              deleteInterval
             );
           }
         } else if (direction === PAUSE) {
@@ -213,7 +222,10 @@ const TypeMe = ({
           setCharIndex(0);
           window.setTimeout(() => {
             setAnimationPaused(false);
-            window.requestAnimationFrame(updateTypedString(typingInterval, newTypedString));
+            window.setTimeout(
+              updateTypedString(typingInterval, newTypedString),
+              typingInterval
+            );
           }, nextItem.ms);
           setAnimationPaused(true);
         }
@@ -226,7 +238,7 @@ const TypeMe = ({
   if (className) {
     containerCn = `${containerCn} ${className}`;
   }
-  if (animationEnded || animationPaused) {
+  if (!startAnimation || animationEnded || animationPaused) {
     cursorCn = `${cursorCn} tm-blink`;
   }
   return (
