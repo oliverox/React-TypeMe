@@ -1,7 +1,8 @@
 # React-TypeMe
 
 A tiny typewriter animation React component, simple and powerful.
-![React-TypeMe demo](https://raw.githubusercontent.com/oliverox/react-typeme/master/demo.gif | width=400)
+
+<img src="https://raw.githubusercontent.com/oliverox/react-typeme/master/demo.gif" width="600">
 
 ## Overview
 
