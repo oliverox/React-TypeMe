@@ -1,13 +1,7 @@
 import React from 'react';
-
 import { storiesOf } from '@storybook/react';
-// import { action } from '@storybook/addon-actions';
-// import { linkTo } from '@storybook/addon-links';
-
 import TypeMe, { LineBreak, Delete, Delay } from '../src/index';
 import './styles.css';
-
-// import { Button, Welcome } from '@storybook/react/demo';
 
 storiesOf('TypeMe', module)
   .add('with text as children', () => <TypeMe>I am passed as children</TypeMe>)
@@ -47,15 +41,3 @@ storiesOf('TypeMe', module)
   .add('loop after deleting text', () => (
     <TypeMe loop strings={['I am a loop', <Delete />]} />
   ));
-
-// storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
-
-// storiesOf('Button', module)
-//   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-//   .add('with some emoji', () => (
-//     <Button onClick={action('clicked')}>
-//       <span role="img" aria-label="so cool">
-//         😀 😎 👍 💯
-//       </span>
-//     </Button>
-//   ));
