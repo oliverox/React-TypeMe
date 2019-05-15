@@ -7,6 +7,7 @@ const PAUSE = 3;
 const END = 0;
 
 const TypeMe = ({
+  loop,
   strings,
   children,
   className,
@@ -66,7 +67,11 @@ const TypeMe = ({
         let delay = false;
         let newDeleteChar = 0;
         if (deleteChar === 0) {
-          newDeleteChar = item.props.characters;
+          if (item.props.characters === 0) {
+            newDeleteChar = newTypedString.length - 1;
+          } else {
+            newDeleteChar = item.props.characters;
+          }
           setDeleteChar(newDeleteChar);
           delay = true;
         } else {
@@ -158,7 +163,14 @@ const TypeMe = ({
       let { direction } = nextItem;
       if (direction === END) {
         onAnimationEnd();
-        setAnimationEnded(true);
+        if (loop) {
+          setCharIndex(0);
+          setItemIndex(0);
+          setTypedString('');
+          setNewTypedString('');
+        } else {
+          setAnimationEnded(true);
+        }
       } else {
         if (direction === FORWARD) {
           // type next character
@@ -240,6 +252,7 @@ TypeMe.defaultProps = {
   deleteSpeed: 800, // WPM
   hideCursor: false,
   className: '',
+  loop: false,
   strings: []
 };
 

@@ -72,6 +72,35 @@ exports[`<TypeMe /> component renders children passed as string 1`] = `
 </div>
 `;
 
+exports[`<TypeMe /> component renders multiple instances 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    <span>
+      hello
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    >
+      |
+    </span>
+  </span>
+  <span
+    class="tm"
+  >
+    <span>
+      there
+    </span>
+    <span
+      class="tm-cursor tm-blink"
+    >
+      |
+    </span>
+  </span>
+</div>
+`;
+
 exports[`<TypeMe /> component renders multiple items passed as prop 1`] = `
 <div>
   <span
@@ -185,6 +214,21 @@ exports[`<TypeMe /> component renders with hidden cursor after animation ends 1`
     <span
       class="tm-cursor tm-blink"
     />
+  </span>
+</div>
+`;
+
+exports[`<TypeMe /> component renders with loop 1`] = `
+<div>
+  <span
+    class="tm"
+  >
+    
+    <span
+      class="tm-cursor"
+    >
+      |
+    </span>
   </span>
 </div>
 `;
