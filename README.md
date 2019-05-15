@@ -21,7 +21,6 @@ It was created primarily to learn about the awesome React Hooks. It is built as 
 * Easily add custom delays.
 * Control when to start your typing animation.
 * Made solely for React - No external dependencies.
-* Renders @ 60fps using `requestAnimationFrame`.
 * Storybook implementation examples.
 
 ## Installation
