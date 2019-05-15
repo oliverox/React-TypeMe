@@ -5,7 +5,7 @@ A tiny typewriter animation React component, simple and powerful.
 ## Overview
 
 React-TypeMe is a typewriter animation component built to be simple and powerful. 
-It was created primarily to learn about React Hooks. It is built as React functional component.
+It was created primarily to learn about the awesome React Hooks. It is built as React functional component.
 
 
 ## Features
@@ -14,15 +14,13 @@ It was created primarily to learn about React Hooks. It is built as React functi
 * Create string looping animation.
 * Customize where your line breaks.
 * Simulate character deletions where necessary.
-* Control typing and backspace speeds.
+* Control typing and backspace speeds if desired.
 * Use your own cursor character.
 * Easily add custom delays.
 * Control when to start your typing animation.
 * Made solely for React - No external dependencies.
 * Renders @ 60fps using `requestAnimationFrame`.
 * Storybook implementation examples.
-
-##
 
 ## Installation
 
@@ -54,3 +52,16 @@ import TypeMe, { LineBreak, Delete } from 'react-typeme';
 ]} />
 
 ```
+
+## License options
+`React-TypeMe` is completely free to use within your open source or personal project. To use it in a commercial project, please purchase either a single license use or an unlimited license &mdash; I'll also gladly help if you encounter any issues / bugs.
+
+Personal or Open Source - **FREE!**
+
+Single Commercial License - Purchase Here
+
+Extended Commercial License - Purchase Here
+
+
+## License
+GPL-3.0 © [OliverOxenham](mailto:oliver.oxenham+typeme@gmail.com)
