@@ -2,7 +2,7 @@
 
 A tiny typewriter animation React component, simple and powerful.
 
-<img src="https://raw.githubusercontent.com/oliverox/react-typeme/master/demo.gif" width="600">
+<img src="https://raw.githubusercontent.com/oliverox/react-typeme/master/demo.gif" width="800">
 
 ## Overview
 
