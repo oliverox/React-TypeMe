@@ -231,14 +231,20 @@ describe('<TypeMe /> component', () => {
   });
 
   it('renders multiple instances', done => {
+    let timesCalled = 0;
+    let resolver;
+    const cb = jest.fn(() => {
+      timesCalled++;
+      if (timesCalled === 2) {
+        resolver();
+      }
+    })
+
     new Promise(resolve => {
-      cb1 = jest.fn();
-      cb = jest.fn(() => {
-        resolve();
-      });
+      resolver = resolve;
       const { container } = render(
         <React.Fragment>
-          <TypeMe onAnimationEnd={cb1} strings={['hello']} />
+          <TypeMe onAnimationEnd={cb} strings={['hello']} />
           <TypeMe onAnimationEnd={cb} strings={['there']} />
         </React.Fragment>
       );
@@ -246,8 +252,7 @@ describe('<TypeMe /> component', () => {
     }).then(() => {
       done();
       expect(div).toMatchSnapshot();
-      expect(cb).toHaveBeenCalledTimes(1);
-      expect(cb1).toHaveBeenCalledTimes(1);
+      expect(cb).toHaveBeenCalledTimes(2);
     });
   });
 

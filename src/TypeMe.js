@@ -130,10 +130,10 @@ const TypeMe = ({
       let animName = 'tm-blink';
       let animStyle = `{0%{opacity:1;}49%{opacity:1;}50%{opacity:0;}100%{opacity:0;}}`;
       let keyframes = [
-        `.tm-cursor{display:inline-block;transform:scale(1.2);font:inherit;position:relative;font-style:normal !important;}`,
-        `.tm-blink{animation:${animName} ${cursorBlinkSpeed}ms infinite;}`,
         `@keyframes ${animName}${animStyle}`,
-        `@-webkit-keyframes ${animName}${animStyle}`
+        `@-webkit-keyframes ${animName}${animStyle}`,
+        `.tm-cursor{display:inline-block;transform:scale(1.2);font:inherit;position:relative;font-style:normal !important;}`,
+        `.tm-blink{animation:${animName} ${cursorBlinkSpeed}ms infinite !important;}`,
       ];
       keyframes.forEach(style => {
         styleSheet.insertRule(style, styleSheet.cssRules.length);
@@ -257,7 +257,7 @@ TypeMe.defaultProps = {
   cursorCharacter: '|',
   cursorBlinkSpeed: 800, // ms
   backspaceDelay: 500, // ms
-  typingSpeed: 200, // WPM
+  typingSpeed: 500, // WPM
   deleteSpeed: 800, // WPM
   hideCursor: false,
   className: '',

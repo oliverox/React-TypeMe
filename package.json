@@ -11,8 +11,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "author": "Oliver Oxenham",
-  "license": "MIT",
+  "author": "Oliver Oxenham <oliver.oxenham+typeme@gmail.com>",
+  "license": "GPL-3.0",
   "peerDependencies": {
     "react": ">=16.x.x"
   },
