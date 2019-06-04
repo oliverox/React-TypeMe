@@ -32,8 +32,7 @@ npm install react-typeme
 
 ### Usage
 
-```JSX
-
+```jsx
 import TypeMe, { LineBreak, Delete } from 'react-typeme';
 
 // Example #1: text passed as children
@@ -52,7 +51,6 @@ import TypeMe, { LineBreak, Delete } from 'react-typeme';
   <Delete characters={6} />, 
   'citizens.'
 ]} />
-
 ```
 
 ## License options
