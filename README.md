@@ -1,4 +1,5 @@
 # React-TypeMe
+[![npm version](https://badge.fury.io/js/react-typeme.svg)](https://badge.fury.io/js/react-typeme)
 
 A tiny typewriter animation React component, simple and powerful.
 
@@ -6,7 +7,7 @@ A tiny typewriter animation React component, simple and powerful.
 
 ## Overview
 
-React-TypeMe is a typewriter animation component built to be simple and powerful. 
+React-TypeMe is a typewriter animation simulator component built to be simple and powerful. 
 It was created primarily to learn about the awesome React Hooks. It is built as React functional component.
 
 
@@ -59,10 +60,10 @@ import TypeMe, { LineBreak, Delete } from 'react-typeme';
 
 Personal or Open Source - **FREE!**
 
-Single Commercial License - *Coming soon*
+[Single Commercial License](https://react-typeme.netlify.com/#license)
 
-Extended Commercial License - *Coming soon*
+[Extended Commercial License](https://react-typeme.netlify.com/#license)
 
 
 ## License
-GPL-3.0 © [OliverOxenham](mailto:oliver.oxenham+typeme@gmail.com)
+GPL-3.0 © [Oliver Oxenham](mailto:oliver.oxenham+typeme@gmail.com)
