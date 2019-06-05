@@ -1,5 +1,6 @@
 # React-TypeMe
 [![npm version](https://badge.fury.io/js/react-typeme.svg)](https://badge.fury.io/js/react-typeme)
+<img src="https://img.shields.io/npm/dm/react-typeme.svg">
 
 A tiny typewriter animation React component, simple and powerful.
 
