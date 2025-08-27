@@ -25,7 +25,7 @@
     "@storybook/addon-links": "^5.2.1",
     "@storybook/addon-storysource": "^5.2.1",
     "@storybook/addons": "^5.2.1",
-    "@storybook/react": "^5.2.1",
+    "@storybook/react": "^9.1.1",
     "@testing-library/react": "^9.1.4",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
